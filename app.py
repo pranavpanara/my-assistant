@@ -30,10 +30,13 @@ if user_message:
         st.markdown(user_message)
         st.session_state.messages.append({"role": "user", "content": user_message})
     
-    response = requests.post(
-        "https://consult-skimming-tapping.ngrok-free.dev/webhook/108627fb-bbc5-4ab5-9e48-9671892b3a23",
-        json={"message": user_message}
+    
+        response = requests.post(
+        "https://consult-skimming-tapping.ngrok-free.dev/webhook-test/108627fb-bbc5-4ab5-9e48-9671892b3a23",
+        json={"message": user_message},
+        headers={"ngrok-skip-browser-warning": "true"}
     )
+    
     
     data = response.json()
     
