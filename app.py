@@ -30,23 +30,25 @@ if user_message:
         st.markdown(user_message)
         st.session_state.messages.append({"role": "user", "content": user_message})
     
-    
-        response = requests.post(
+    # API Call
+    response = requests.post(
         "https://consult-skimming-tapping.ngrok-free.dev/webhook-test/108627fb-bbc5-4ab5-9e48-9671892b3a23",
         json={"message": user_message},
         headers={"ngrok-skip-browser-warning": "true"}
     )
     
-    
-    data = response.json()
-    
-    
-    if isinstance(data, list) and len(data) > 0:
-        data = data[0]
-    # ---------------------------------------------------------------------
-    
-    ai_response = data.get("output", data.get("text", data.get("response", str(data))))
-    
+    # Error Handling for JSONDecodeError
+    try:
+        data = response.json()
+        
+        if isinstance(data, list) and len(data) > 0:
+            data = data[0]
+            
+        ai_response = data.get("output", data.get("text", data.get("response", str(data))))
+    except Exception:
+        
+        ai_response = f"⚠️ એરર! સર્વર તરફથી આ જવાબ મળ્યો છે: {response.text}"
+        
     with st.chat_message("assistant"):
         st.markdown(ai_response)
         st.session_state.messages.append({"role": "assistant", "content": ai_response})
