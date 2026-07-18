@@ -31,7 +31,7 @@ if user_message:
         st.session_state.messages.append({"role": "user", "content": user_message})
     
     response = requests.post(
-        "http://localhost:5678/webhook/108627fb-bbc5-4ab5-9e48-9671892b3a23",
+        "https://consult-skimming-tapping.ngrok-free.dev/webhook/108627fb-bbc5-4ab5-9e48-9671892b3a23",
         json={"message": user_message}
     )
     
